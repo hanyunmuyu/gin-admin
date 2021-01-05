@@ -10,6 +10,18 @@ type LoginController struct {
 	http.BaseController
 }
 
+// @Summary 登录
+// @Description | 参数 | 说明 |备注|
+// @Description | :-----: | :----: | :----: |
+// @Description |token|用户的token||
+// @Tags  admin
+// @Accept mpfd
+// @Produce json
+// @version 1.0
+// @Param name formData string true "用户名"
+// @Param password formData string true "密码"
+// @success 200 {object} utils.JSONResult{data=map[string]string} "成功"
+// @Router /admin/v1/login [POST]
 func (login *LoginController) Login(ctx *gin.Context) {
 	loginStruct := struct {
 		Name     string `json:"name" form:"name" binding:"required"`
@@ -19,7 +31,7 @@ func (login *LoginController) Login(ctx *gin.Context) {
 		lang := make(map[string]string)
 		lang["Name.required"] = "用户名"
 		lang["Password.required"] = "密码"
-		err = login.Translate(err, lang)
+		err := login.Translate(err, lang)
 		if err != nil {
 			login.Error(ctx, err.Error())
 		} else {

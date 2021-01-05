@@ -16,6 +16,7 @@ type AdminController struct {
 }
 
 // @Summary 管理员列表
+// @Security ApiKeyAuth
 // @Description | 参数 | 说明 |备注|
 // @Description | :-----: | :----: | :----: |
 // @Description |page|页码||
