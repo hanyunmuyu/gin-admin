@@ -1,0 +1,10 @@
+vendor/
+.idea
+go.sum
+vendor
+.DS_Store
+docs/
+log/*.log
+env.yml
+main
+main.exe
