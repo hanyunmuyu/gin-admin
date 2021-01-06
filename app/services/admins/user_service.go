@@ -23,6 +23,18 @@ func (userService *UserService) GetUserById(userId uint) (user models.User) {
 	db.DB.First(&user, userId)
 	return
 }
+func (userService *UserService) GetUserByName(userName string) (user models.User) {
+	db.DB.Where("name=?", userName).First(&user)
+	return
+}
+func (userService *UserService) GetUserByMobile(mobile string) (user models.User) {
+	db.DB.Where("mobile=?", mobile).First(&user)
+	return
+}
+func (userService *UserService) GetUserByEmail(email string) (user models.User) {
+	db.DB.Where("email=?", email).First(&user)
+	return
+}
 func (userService *UserService) DeleteUser(userId uint) int64 {
 	return db.DB.Delete(&models.User{}, userId).RowsAffected
 }

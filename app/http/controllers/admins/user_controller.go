@@ -46,7 +46,11 @@ func (userController *UserController) GetUserList(ctx *gin.Context) {
 // @Tags  admin
 // @version 1.0
 // @Param userId path int true "用户id" min(1)
-// @Param password formData string true "密码" minlength(5)
+// @Param password formData string false "密码" minlength(5)
+// @Param mobile formData string false "手机号"
+// @Param email formData string false "邮箱"
+// @Param avatar formData string false "头像"
+// @Param name formData string false "用户名"
 // @success 200 {object} utils.JSONResult{} "更新成功"
 // @Router /admin/v1/user/{userId} [PUT]
 func (userController *UserController) UpdateUser(ctx *gin.Context) {
@@ -65,11 +69,15 @@ func (userController *UserController) UpdateUser(ctx *gin.Context) {
 			return
 		}
 	}
-	password := struct {
-		Password string `json:"password" form:"password" binding:"required"`
+	userForm := struct {
+		Password string `json:"password" form:"password"`
+		Mobile   string `json:"mobile" form:"mobile" `
+		Email    string `json:"email" form:"email"`
+		Avatar   string `json:"avatar" form:"avatar"`
+		Name     string `json:"name" form:"name"`
 	}{}
 
-	if err := ctx.ShouldBind(&password); err != nil {
+	if err := ctx.ShouldBind(&userForm); err != nil {
 		lang := make(map[string]string)
 		lang["Password.required"] = "密码"
 		err := userController.Translate(err, lang)
@@ -86,7 +94,33 @@ func (userController *UserController) UpdateUser(ctx *gin.Context) {
 		userController.Error(ctx, "用户不存在")
 		return
 	}
-	user.Password = utils.EncodeMD5(password.Password)
+	if userForm.Email != "" {
+		if u := userService.GetUserByEmail(userForm.Email); u.ID != user.ID {
+			userController.Error(ctx, "邮箱已经存在")
+			return
+		}
+		user.Email = userForm.Email
+	}
+	if userForm.Mobile != "" {
+		if u := userService.GetUserByMobile(userForm.Mobile); u.ID != user.ID {
+			userController.Error(ctx, "手机号已经存在")
+			return
+		}
+		user.Mobile = userForm.Mobile
+	}
+	if userForm.Name != "" {
+		if u := userService.GetUserByName(userForm.Name); u.ID != user.ID {
+			userController.Error(ctx, "用户名已经存在")
+			return
+		}
+		user.Name = userForm.Name
+	}
+	if userForm.Avatar != "" {
+		user.Avatar = userForm.Avatar
+	}
+	if userForm.Password != "" {
+		user.Password = utils.EncodeMD5(userForm.Password)
+	}
 	err := userService.UpdateUser(user)
 	if err == nil {
 		userController.Success(ctx, gin.H{})
