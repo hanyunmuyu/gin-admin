@@ -20,6 +20,9 @@ type UserController struct {
 // @Security ApiKeyAuth
 // @Description | 参数 | 说明 |备注|
 // @Description | :-----: | :----: | :----: |
+// @Description |name|用户名||
+// @Description |mobile|手机号||
+// @Description |email|邮箱||
 // @Description |page|页码||
 // @Tags  admin
 // @version 1.0
