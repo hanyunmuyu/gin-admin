@@ -1,6 +1,7 @@
 package utils
 
 import (
+	"database/sql/driver"
 	"time"
 )
 
@@ -31,4 +32,10 @@ func (t *Time) Scan(v interface{}) error {
 }
 func (t Time) String() string {
 	return time.Time(t).Format(timeFormat)
+}
+func (t Time) Value() (driver.Value, error) {
+	if t.String() == "0001-01-01 00:00:00" {
+		return nil, nil
+	}
+	return time.Time(t), nil
 }

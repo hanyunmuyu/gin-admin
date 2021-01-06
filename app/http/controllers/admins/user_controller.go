@@ -6,6 +6,7 @@ import (
 	"gin-admin/pkg/utils"
 	"github.com/gin-gonic/gin"
 	"strconv"
+	"time"
 )
 
 var (
@@ -84,6 +85,7 @@ func (userController *UserController) UpdateUser(ctx *gin.Context) {
 		return
 	}
 	user.Password = utils.EncodeMD5(password.Password)
+	user.DeletedAt = utils.Time(time.Now())
 	userService.UpdateUser(user)
 	userController.Success(ctx, gin.H{})
 
