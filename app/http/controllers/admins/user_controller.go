@@ -6,7 +6,6 @@ import (
 	"gin-admin/pkg/utils"
 	"github.com/gin-gonic/gin"
 	"strconv"
-	"time"
 )
 
 var (
@@ -85,8 +84,48 @@ func (userController *UserController) UpdateUser(ctx *gin.Context) {
 		return
 	}
 	user.Password = utils.EncodeMD5(password.Password)
-	user.DeletedAt = utils.Time(time.Now())
-	userService.UpdateUser(user)
-	userController.Success(ctx, gin.H{})
+	err := userService.UpdateUser(user)
+	if err == nil {
+		userController.Success(ctx, gin.H{})
+	} else {
+		userController.Error(ctx, err.Error())
+	}
+}
 
+// @Summary 删除用户
+// @Security ApiKeyAuth
+// @Description | 参数 | 说明 |备注|
+// @Description | :-----: | :----: | :----: |
+// @Accept mpfd
+// @Tags  admin
+// @version 1.0
+// @Param userId path int true "用户id" min(1)
+// @success 200 {object} utils.JSONResult{} "删除成功"
+// @Router /admin/v1/user/{userId} [delete]
+func (userController *UserController) DeleteUser(ctx *gin.Context) {
+	form := struct {
+		UserId uint `json:"userId" uri:"userId" binding:"required"`
+	}{}
+	if err := ctx.ShouldBindUri(&form); err != nil {
+		lang := make(map[string]string)
+		lang["UserId.required"] = "用户id"
+		err := userController.Translate(err, lang)
+		if err != nil {
+			userController.Error(ctx, err.Error())
+			return
+		} else {
+			userController.Error(ctx, "")
+			return
+		}
+	}
+	user := userService.GetUserById(form.UserId)
+	if user.ID == 0 {
+		userController.Error(ctx, "用户不存在")
+		return
+	}
+	if row := userService.DeleteUser(form.UserId); row > 0 {
+		userController.Success(ctx, gin.H{})
+	} else {
+		userController.Error(ctx, "删除失败")
+	}
 }

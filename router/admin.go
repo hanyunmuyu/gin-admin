@@ -21,5 +21,6 @@ func adminRouter() {
 		adminRouter.GET("/admin/update", adminController.UpdateAdmin)
 		adminRouter.GET("/user/list", userController.GetUserList)
 		adminRouter.PUT("/user/:userId", userController.UpdateUser)
+		adminRouter.DELETE("/user/:userId", userController.DeleteUser)
 	}
 }

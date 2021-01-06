@@ -16,10 +16,13 @@ func (userService *UserService) GetUserList(page, limit int) *utils.Paginate {
 	return utils.NewPaginate(count, page, limit, userList)
 }
 
-func (userService *UserService) UpdateUser(user models.User) {
-	db.DB.Save(&user)
+func (userService *UserService) UpdateUser(user models.User) error {
+	return db.DB.Save(&user).Error
 }
 func (userService *UserService) GetUserById(userId uint) (user models.User) {
 	db.DB.First(&user, userId)
 	return
+}
+func (userService *UserService) DeleteUser(userId uint) int64 {
+	return db.DB.Delete(&models.User{}, userId).RowsAffected
 }
