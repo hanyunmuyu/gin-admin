@@ -56,9 +56,14 @@ func (v *DefaultValidator) Engine() interface{} {
 func (v *DefaultValidator) lazyInit() {
 	v.once.Do(func() {
 		v.validate = validator.New()
-		Trans.Add("mobile", "{0}必须是一个有效的邮箱", true)
 		_ = zhTranslation.RegisterDefaultTranslations(v.validate, Trans)
 		_ = v.validate.RegisterValidation("mobile", mobile)
+		_ = v.validate.RegisterTranslation("mobile", Trans, func(ut ut.Translator) error {
+			return ut.Add("mobile", "{0}格式不符合要求", true) // see universal-translator for details
+		}, func(ut ut.Translator, fe validator.FieldError) string {
+			t, _ := ut.T("mobile", fe.Field())
+			return t
+		})
 		v.validate.SetTagName("binding")
 	})
 }

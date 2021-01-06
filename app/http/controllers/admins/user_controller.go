@@ -80,7 +80,7 @@ func (userController *UserController) UpdateUser(ctx *gin.Context) {
 	if err := ctx.ShouldBind(&userForm); err != nil {
 		lang := make(map[string]string)
 		lang["Password"] = "密码"
-		//lang["Mobile"] = "手机号"
+		lang["Mobile"] = "手机号"
 		lang["Email"] = "邮箱"
 		lang["Name"] = "用户名"
 		err := userController.Translate(err, lang)
