@@ -22,8 +22,8 @@ type AdminController struct {
 // @Description |page|页码||
 // @Tags  admin
 // @version 1.0
-// @Param page query int false "页码"
-// @success 200 {object} utils.JSONResult{data=utils.Paginate} "desc"
+// @Param page query int false "页码" default(1)
+// @success 200 {object} utils.JSONResult{data=utils.Paginate}
 // @Router /admin/v1/admin/list [GET]
 func (ac AdminController) GetAdminList(ctx *gin.Context) {
 	page := 1

@@ -24,7 +24,7 @@ type UserController struct {
 // @Tags  admin
 // @version 1.0
 // @Param page query int false "页码" default(1)
-// @success 200 {object} utils.JSONResult{data=[]models.User} "desc"
+// @success 200 {object} utils.JSONResult{data=utils.Paginate}
 // @Router /admin/v1/user/list [GET]
 func (userController *UserController) GetUserList(ctx *gin.Context) {
 	page := 1
