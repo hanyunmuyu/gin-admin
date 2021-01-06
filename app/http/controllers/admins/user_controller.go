@@ -59,7 +59,7 @@ func (userController *UserController) UpdateUser(ctx *gin.Context) {
 	}{}
 	if err := ctx.ShouldBindUri(&form); err != nil {
 		lang := make(map[string]string)
-		lang["UserId.required"] = "用户id"
+		lang["UserId"] = "用户id"
 		err := userController.Translate(err, lang)
 		if err != nil {
 			userController.Error(ctx, err.Error())
@@ -71,15 +71,18 @@ func (userController *UserController) UpdateUser(ctx *gin.Context) {
 	}
 	userForm := struct {
 		Password string `json:"password" form:"password"`
-		Mobile   string `json:"mobile" form:"mobile" `
-		Email    string `json:"email" form:"email"`
+		Mobile   string `json:"mobile" form:"mobile" binding:"omitempty,mobile"`
+		Email    string `json:"email" form:"email" binding:"omitempty,email"`
 		Avatar   string `json:"avatar" form:"avatar"`
 		Name     string `json:"name" form:"name"`
 	}{}
 
 	if err := ctx.ShouldBind(&userForm); err != nil {
 		lang := make(map[string]string)
-		lang["Password.required"] = "密码"
+		lang["Password"] = "密码"
+		//lang["Mobile"] = "手机号"
+		lang["Email"] = "邮箱"
+		lang["Name"] = "用户名"
 		err := userController.Translate(err, lang)
 		if err != nil {
 			userController.Error(ctx, err.Error())
@@ -145,7 +148,7 @@ func (userController *UserController) DeleteUser(ctx *gin.Context) {
 	}{}
 	if err := ctx.ShouldBindUri(&form); err != nil {
 		lang := make(map[string]string)
-		lang["UserId.required"] = "用户id"
+		lang["UserId"] = "用户id"
 		err := userController.Translate(err, lang)
 		if err != nil {
 			userController.Error(ctx, err.Error())

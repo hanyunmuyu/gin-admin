@@ -2,7 +2,6 @@ package http
 
 import (
 	"errors"
-	"fmt"
 	"gin-admin/pkg/utils"
 	"github.com/gin-gonic/gin"
 	"github.com/go-playground/validator/v10"
@@ -23,9 +22,9 @@ func (base *BaseController) Error(ctx *gin.Context, msg string) {
 func (base *BaseController) Translate(err error, lang map[string]string) error {
 	errs := err.(validator.ValidationErrors)
 	for _, e := range errs {
-		key := fmt.Sprintf("%v.%v", e.Field(), e.ActualTag())
+		key := e.Field()
 		if _, ok := lang[key]; ok {
-			return errors.New(strings.ReplaceAll(e.Translate(utils.Trans), e.Field(), lang[key]))
+			return errors.New(strings.ReplaceAll(e.Translate(utils.Trans), key, lang[key]))
 		} else {
 			return errors.New(e.Translate(utils.Trans))
 		}

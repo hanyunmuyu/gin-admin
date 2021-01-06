@@ -29,8 +29,8 @@ func (login *LoginController) Login(ctx *gin.Context) {
 	}{}
 	if err := ctx.ShouldBind(&loginStruct); err != nil {
 		lang := make(map[string]string)
-		lang["Name.required"] = "用户名"
-		lang["Password.required"] = "密码"
+		lang["Name"] = "用户名"
+		lang["Password"] = "密码"
 		err := login.Translate(err, lang)
 		if err != nil {
 			login.Error(ctx, err.Error())
