@@ -20,5 +20,6 @@ func adminRouter() {
 		adminRouter.GET("/admin/list", adminController.GetAdminList)
 		adminRouter.GET("/admin/update", adminController.UpdateAdmin)
 		adminRouter.GET("/user/list", userController.GetUserList)
+		adminRouter.PUT("/user/:userId", userController.UpdateUser)
 	}
 }

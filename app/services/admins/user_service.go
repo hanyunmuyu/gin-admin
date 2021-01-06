@@ -15,3 +15,11 @@ func (userService *UserService) GetUserList(page, limit int) *utils.Paginate {
 	db.DB.Offset((page - 1) * limit).Limit(limit).Find(&userList).Offset(0).Count(&count)
 	return utils.NewPaginate(count, page, limit, userList)
 }
+
+func (userService *UserService) UpdateUser(user models.User) {
+	db.DB.Save(&user)
+}
+func (userService *UserService) GetUserById(userId uint) (user models.User) {
+	db.DB.First(&user, userId)
+	return
+}
