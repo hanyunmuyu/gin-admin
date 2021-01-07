@@ -17,7 +17,6 @@ func adminRouter() {
 	r := router()
 	adminRouter := r.Group("/admin/v1")
 	adminRouter.POST("/login", loginController.Login)
-	adminRouter.PUT("/role/detail/:roleId", roleController.UpdateRole)
 
 	adminRouter.Use(middleware.AdminJwt())
 	{
@@ -29,5 +28,7 @@ func adminRouter() {
 		adminRouter.GET("/permission/list", permissionController.GetPermissionList)
 		adminRouter.GET("/role/list", roleController.GetRoleList)
 		adminRouter.GET("/role/detail/:roleId", roleController.GetRoleDetail)
+		adminRouter.PUT("/role/detail/:roleId", roleController.UpdateRole)
+		adminRouter.DELETE("/role/detail/:roleId", roleController.DeleteRole)
 	}
 }
