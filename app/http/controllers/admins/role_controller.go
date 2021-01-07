@@ -80,3 +80,61 @@ func (r *RoleController) GetRoleDetail(ctx *gin.Context) {
 	role.PermissionList = rolePermissionList
 	r.Success(ctx, role)
 }
+
+// @Summary 更新角色
+// @Security ApiKeyAuth
+// @accept x-www-form-urlencoded
+// @Description | 参数 | 说明 |备注|
+// @Description | :-----: | :----: | :----: |
+// @Param roleId path uint true "角色id" minimum(1)
+// @Param permissionId formData []int true "权限id" collectionFormat(multi)
+// @Tags  admin
+// @version 1.0
+// @success 200 {object} utils.JSONResult{data=models.Role}
+// @Router /admin/v1/role/detail/{roleId} [PUT]
+func (r *RoleController) UpdateRole(ctx *gin.Context) {
+	form := struct {
+		RoleId uint `uri:"roleId" binding:"required,gte=1"`
+	}{}
+	permissionList := struct {
+		PermissionId []uint `form:"permissionId" json:"permissionId" binding:"required"`
+	}{}
+	if err := ctx.ShouldBindUri(&form); err != nil {
+		lang := map[string]string{}
+		lang["roleId"] = "角色id"
+		err = r.Translate(err, lang)
+		if err != nil {
+			r.Error(ctx, err.Error())
+			return
+		}
+		r.Error(ctx, "")
+		return
+	}
+	if err := ctx.ShouldBind(&permissionList); err != nil {
+		lang := map[string]string{}
+		lang["PermissionId"] = "权限列表不可以为空"
+		err = r.Translate(err, lang)
+		if err != nil {
+			r.Error(ctx, err.Error())
+			return
+		}
+		r.Error(ctx, "")
+		return
+	}
+	if form.RoleId == 1 {
+		r.Success(ctx, "更新成功")
+		return
+	}
+	role := roleService.GetRoleById(form.RoleId)
+	if role.ID == 0 {
+		r.Error(ctx, "角色不存在")
+		return
+	}
+	role.PermissionList = permissionService.GetPermissionListByIdList(permissionList.PermissionId)
+	roleService.DeleteRolePermission(role.ID)
+	row := roleService.UpdateRole(role)
+	if row <= 0 {
+		r.Error(ctx, "更新失败")
+	}
+	r.Success(ctx, "更新成功")
+}

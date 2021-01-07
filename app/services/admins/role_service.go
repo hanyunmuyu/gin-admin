@@ -29,3 +29,10 @@ func (r *RoleService) GetRolePermission(role models.Role) (permissionList []mode
 	err = db.DB.Model(&role).Association("PermissionList").Find(&permissionList)
 	return
 }
+func (r *RoleService) UpdateRole(role models.Role) int64 {
+	return db.DB.Save(&role).RowsAffected
+}
+
+func (r *RoleService) DeleteRolePermission(roleId uint) int64 {
+	return db.DB.Where("role_id=?", roleId).Delete(&models.RolePermission{}).RowsAffected
+}

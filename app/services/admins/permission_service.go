@@ -12,3 +12,7 @@ func (ps *PermissionService) GetPermissionList() (permissionList []models.Permis
 	db.DB.Find(&permissionList)
 	return
 }
+func (ps *PermissionService) GetPermissionListByIdList(idList []uint) (permissionList []models.Permission) {
+	db.DB.Where("id IN (?)", idList).Find(&permissionList)
+	return
+}
