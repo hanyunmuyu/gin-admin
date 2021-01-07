@@ -10,13 +10,13 @@ var (
 	loginController      = admins.LoginController{}
 	userController       = admins.UserController{}
 	permissionController = admins.PermissionController{}
+	roleController       = admins.RoleController{}
 )
 
 func adminRouter() {
 	r := router()
 	adminRouter := r.Group("/admin/v1")
 	adminRouter.POST("/login", loginController.Login)
-	adminRouter.GET("/permission/list", permissionController.GetPermissionList)
 	adminRouter.Use(middleware.AdminJwt())
 	{
 		adminRouter.GET("/admin/list", adminController.GetAdminList)
@@ -24,5 +24,7 @@ func adminRouter() {
 		adminRouter.GET("/user/list", userController.GetUserList)
 		adminRouter.PUT("/user/:userId", userController.UpdateUser)
 		adminRouter.DELETE("/user/:userId", userController.DeleteUser)
+		adminRouter.GET("/permission/list", permissionController.GetPermissionList)
+		adminRouter.GET("/role/list", roleController.GetRoleList)
 	}
 }
