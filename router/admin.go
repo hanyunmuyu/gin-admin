@@ -17,6 +17,7 @@ func adminRouter() {
 	r := router()
 	adminRouter := r.Group("/admin/v1")
 	adminRouter.POST("/login", loginController.Login)
+	adminRouter.GET("/role/detail/:roleId", roleController.GetRoleDetail)
 	adminRouter.Use(middleware.AdminJwt())
 	{
 		adminRouter.GET("/admin/list", adminController.GetAdminList)
