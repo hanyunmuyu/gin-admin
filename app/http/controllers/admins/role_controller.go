@@ -91,7 +91,7 @@ func (r *RoleController) GetRoleDetail(ctx *gin.Context) {
 // @Tags  admin
 // @version 1.0
 // @success 200 {object} utils.JSONResult{}
-// @Router /admin/v1/role/detail/{roleId} [PUT]
+// @Router /admin/v1/role/update/{roleId} [PUT]
 func (r *RoleController) UpdateRole(ctx *gin.Context) {
 	form := struct {
 		RoleId uint `uri:"roleId" binding:"required,gte=1"`
@@ -147,7 +147,7 @@ func (r *RoleController) UpdateRole(ctx *gin.Context) {
 // @Tags  admin
 // @version 1.0
 // @success 200 {object} utils.JSONResult{}
-// @Router /admin/v1/role/detail/{roleId} [DELETE]
+// @Router /admin/v1/role/delete/{roleId} [DELETE]
 func (r *RoleController) DeleteRole(ctx *gin.Context) {
 	form := struct {
 		RoleId uint `uri:"roleId" binding:"required,gte=1"`

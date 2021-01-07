@@ -28,7 +28,7 @@ func adminRouter() {
 		adminRouter.GET("/permission/list", permissionController.GetPermissionList)
 		adminRouter.GET("/role/list", roleController.GetRoleList)
 		adminRouter.GET("/role/detail/:roleId", roleController.GetRoleDetail)
-		adminRouter.PUT("/role/detail/:roleId", roleController.UpdateRole)
-		adminRouter.DELETE("/role/detail/:roleId", roleController.DeleteRole)
+		adminRouter.PUT("/role/update/:roleId", roleController.UpdateRole)
+		adminRouter.DELETE("/role/delete/:roleId", roleController.DeleteRole)
 	}
 }
