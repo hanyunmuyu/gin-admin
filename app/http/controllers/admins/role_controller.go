@@ -33,9 +33,29 @@ func (r *RoleController) GetRoleList(ctx *gin.Context) {
 	roleList := roleService.GetRoleList(page, 15)
 	r.Success(ctx, roleList)
 }
+
+// @Summary 角色详情
+// @Security ApiKeyAuth
+// @Description | 参数 | 说明 |备注|
+// @Description | :-----: | :----: | :----: |
+// @Description |roleName|角色名称||
+// @Description |permissionList|权限id||
+// @Description |id|权限列表|permissionList列表下面的|
+// @Description |apiPath|API地址||
+// @Description |rule|匹配规则||
+// @Description |method|请求方法||
+// @Description |title|权限名称||
+// @Description |parentId|parentId||
+// @Description |isMenu|是否是菜单|1是0不是|
+// @Description |path|路由地址||
+// @Param roleId path int true "角色id" minimum(1)
+// @Tags  admin
+// @version 1.0
+// @success 200 {object} utils.JSONResult{data=models.Role}
+// @Router /admin/v1/role/detail/{roleId} [GET]
 func (r *RoleController) GetRoleDetail(ctx *gin.Context) {
 	form := struct {
-		RoleId uint `json:"roleId" uri:"roleId" binding:"required"`
+		RoleId uint `json:"roleId" uri:"roleId" binding:"required,gte=1"`
 	}{}
 	if err := ctx.ShouldBindUri(&form); err != nil {
 		lang := map[string]string{}
