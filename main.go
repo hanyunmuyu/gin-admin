@@ -1,6 +1,10 @@
 package main
 
-import "gin-admin/router"
+import (
+	"gin-admin/router"
+	"gin-admin/seeds"
+	"os"
+)
 
 // @title gin-admin
 // @version 1.0
@@ -16,5 +20,10 @@ import "gin-admin/router"
 // @license.url http://www.apache.org/licenses/LICENSE-2.0.html
 // @host localhost:886
 func main() {
-	router.Run()
+	if len(os.Args) > 1 {
+		seeds.Run(os.Args)
+	} else {
+		router.Run()
+
+	}
 }
