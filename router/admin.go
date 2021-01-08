@@ -11,13 +11,15 @@ var (
 	userController       = admins.UserController{}
 	permissionController = admins.PermissionController{}
 	roleController       = admins.RoleController{}
+	uploadController     = admins.UploadController{}
 )
 
 func adminRouter() {
 	r := router()
 	adminRouter := r.Group("/admin/v1")
 	adminRouter.POST("/login", loginController.Login)
-
+	adminRouter.POST("/upload", uploadController.Upload)
+	adminRouter.POST("/upload/multi", uploadController.UploadMulti)
 	adminRouter.Use(middleware.AdminJwt())
 	{
 		adminRouter.GET("/admin/list", adminController.GetAdminList)
