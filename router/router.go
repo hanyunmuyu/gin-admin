@@ -1,13 +1,10 @@
 package router
 
 import (
-	_ "gin-admin/docs"
 	"gin-admin/pkg/utils"
 	"github.com/gin-contrib/cors"
 	"github.com/gin-gonic/gin"
 	"github.com/gin-gonic/gin/binding"
-	"github.com/swaggo/gin-swagger"
-	"github.com/swaggo/gin-swagger/swaggerFiles"
 	"net/http"
 	"time"
 )
@@ -23,9 +20,6 @@ func init() {
 	defaultConfig.AllowHeaders = []string{"Origin", "Content-Length", "Content-Type", "Authorization"}
 	defaultConfig.ExposeHeaders = []string{"Content-Length"}
 	engine.Use(cors.New(defaultConfig))
-
-	url := ginSwagger.URL("http://localhost:886/swagger/doc.json")
-	engine.GET("/swagger/*any", ginSwagger.WrapHandler(swaggerFiles.Handler, url))
 }
 
 // router router
