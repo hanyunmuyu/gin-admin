@@ -75,11 +75,11 @@ func (r *RoleController) GetRoleDetail(ctx *gin.Context) {
 		return
 	}
 	rolePermissionList, err := roleService.GetRolePermission(role)
+	permissionAll := permissionService.GetPermissionList()
 	if err != nil {
 		r.Error(ctx, err.Error())
 	}
-	role.PermissionList = rolePermissionList
-	r.Success(ctx, role)
+	r.Success(ctx, gin.H{"permissionList": rolePermissionList, "permissionAll": permissionAll})
 }
 
 // @Summary 更新角色
@@ -98,7 +98,7 @@ func (r *RoleController) UpdateRole(ctx *gin.Context) {
 		RoleId uint `uri:"roleId" binding:"required,gte=1"`
 	}{}
 	permissionList := struct {
-		PermissionId []uint `form:"permissionId" json:"permissionId" binding:"required"`
+		PermissionId []uint `form:"permissionList" json:"permissionList" binding:"required"`
 	}{}
 	if err := ctx.ShouldBindUri(&form); err != nil {
 		lang := map[string]string{}
@@ -113,7 +113,7 @@ func (r *RoleController) UpdateRole(ctx *gin.Context) {
 	}
 	if err := ctx.ShouldBind(&permissionList); err != nil {
 		lang := map[string]string{}
-		lang["PermissionId"] = "权限列表不可以为空"
+		lang["permissionList"] = "权限列表不可以为空"
 		err = r.Translate(err, lang)
 		if err != nil {
 			r.Error(ctx, err.Error())
