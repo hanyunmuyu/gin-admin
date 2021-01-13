@@ -14,6 +14,16 @@ func NewPermissionSeeder() *PermissionSeeder {
 
 func (p PermissionSeeder) Run() {
 	var permissionList []models.Permission
+	permissionList = append(permissionList, models.Permission{
+		ApiPath:        "",
+		Rule:           "",
+		Method:         "GET",
+		Title:          "仪表盘",
+		ParentId:       0,
+		IsMenu:         1,
+		Path:           "/admin/dashboard",
+		PermissionList: nil,
+	})
 	var rolePermission []models.Permission
 	rolePermission = append(rolePermission, models.Permission{
 		ApiPath:  "/admin/v1/role/list",
