@@ -12,7 +12,7 @@ type AdminService struct {
 func (adminService *AdminService) GetAdminList(page int, limit int) *utils.Paginate {
 	var adminList []models.Admin
 	var count int64
-	db.DB.Offset((page - 1) * limit).Limit(limit).Find(&adminList).Offset(0).Count(&count)
+	db.DB.Offset((page - 1) * limit).Limit(limit).Find(&adminList).Offset(-1).Count(&count)
 	return utils.NewPaginate(count, page, limit, adminList)
 }
 func (adminService *AdminService) UpdateAdmin(adminId uint) {
