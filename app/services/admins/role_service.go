@@ -39,3 +39,6 @@ func (r *RoleService) DeleteRolePermission(roleId uint) int64 {
 func (r *RoleService) DeleteRole(roleId uint) int64 {
 	return db.DB.Delete(&models.Role{}, roleId).RowsAffected
 }
+func (r *RoleService) AddRolePermission(rolePermissionList []models.RolePermission) {
+	db.DB.Create(&rolePermissionList)
+}

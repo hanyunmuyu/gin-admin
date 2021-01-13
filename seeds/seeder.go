@@ -5,6 +5,7 @@ import (
 )
 
 var seederList = []Seeder{
+	seeders.NewPermissionSeeder(),
 	seeders.NewRoleSeeder(),
 	seeders.NewAdminSeeder(),
 	seeders.NewUserSeeder(),
@@ -19,11 +20,16 @@ func Run(args []string) {
 	switch args[1] {
 	case "seed":
 		//删除所有表
-		//drop()
+		drop()
 		migrate()
 		// 重新跑种子
 		run()
 		break
+	}
+}
+func drop() {
+	for _, s := range seederList {
+		s.Drop()
 	}
 }
 func run() {

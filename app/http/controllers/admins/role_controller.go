@@ -2,6 +2,7 @@ package admins
 
 import (
 	"gin-admin/app/http"
+	"gin-admin/app/models"
 	"gin-admin/app/services/admins"
 	"github.com/gin-gonic/gin"
 	"strconv"
@@ -130,9 +131,17 @@ func (r *RoleController) UpdateRole(ctx *gin.Context) {
 		r.Error(ctx, "角色不存在")
 		return
 	}
-	role.PermissionList = permissionService.GetPermissionListByIdList(permissionList.PermissionId)
-	roleService.DeleteRolePermission(role.ID)
 	row := roleService.UpdateRole(role)
+	roleService.DeleteRolePermission(role.ID)
+
+	var rolePermissionList []models.RolePermission
+	for _, permission := range permissionService.GetPermissionListByIdList(permissionList.PermissionId) {
+		rolePermissionList = append(rolePermissionList, models.RolePermission{
+			RoleId:       role.ID,
+			PermissionId: permission.ID,
+		})
+	}
+	roleService.AddRolePermission(rolePermissionList)
 	if row <= 0 {
 		r.Error(ctx, "更新失败")
 	}

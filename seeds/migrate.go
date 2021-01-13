@@ -8,6 +8,8 @@ import (
 func migrate() {
 	_ = db.DB.AutoMigrate(
 		models.Role{},
+		models.Permission{},
+		models.RolePermission{},
 		models.Admin{},
 		models.User{},
 	)
