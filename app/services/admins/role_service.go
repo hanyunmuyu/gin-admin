@@ -19,6 +19,10 @@ func (r *RoleService) GetRoleById(roleId uint) (role models.Role) {
 	db.DB.First(&role, roleId)
 	return
 }
+func (r *RoleService) GetRoleByRoleName(roleName string) (role models.Role) {
+	db.DB.First(&role, "role_name=?", roleName)
+	return
+}
 
 // 如果角色id为1则返回所有的权限，就是说拥有所有的权限
 func (r *RoleService) GetRolePermission(role models.Role) (permissionList []models.Permission, err error) {
@@ -41,4 +45,7 @@ func (r *RoleService) DeleteRole(roleId uint) int64 {
 }
 func (r *RoleService) AddRolePermission(rolePermissionList []models.RolePermission) {
 	db.DB.Create(&rolePermissionList)
+}
+func (r *RoleService) AddRole(role models.Role) int64 {
+	return db.DB.Create(&role).RowsAffected
 }
