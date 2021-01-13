@@ -1,6 +1,7 @@
 package router
 
 import (
+	"fmt"
 	"gin-admin/pkg/utils"
 	"github.com/gin-contrib/cors"
 	"github.com/gin-gonic/gin"
@@ -38,5 +39,7 @@ func Run() {
 		WriteTimeout:   time.Duration(5) * time.Second,
 		MaxHeaderBytes: 1 << 20,
 	}
-	_ = s.ListenAndServe()
+	if err := s.ListenAndServe(); err != nil {
+		fmt.Println(err.Error())
+	}
 }

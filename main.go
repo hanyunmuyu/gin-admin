@@ -24,6 +24,5 @@ func main() {
 		seeds.Run(os.Args)
 	} else {
 		router.Run()
-
 	}
 }
