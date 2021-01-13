@@ -29,10 +29,9 @@ type AdminController struct {
 // @Router /admin/v1/admin/list [GET]
 func (ac AdminController) GetAdminList(ctx *gin.Context) {
 	page := 1
-	if p, err := strconv.Atoi(ctx.DefaultQuery("page", "1")); err != nil {
+	if p, err := strconv.Atoi(ctx.DefaultQuery("page", "1")); err == nil {
 		page = p
 	}
-
 	adminList := adminService.GetAdminList(page, 15)
 	ac.Success(ctx, adminList)
 }
