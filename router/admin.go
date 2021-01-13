@@ -29,7 +29,7 @@ func adminRouter() {
 	{
 		adminRouter.GET("/admin/list", adminController.GetAdminList)
 		adminRouter.GET("/admin/info", adminController.GetAdminInfo)
-		adminRouter.GET("/admin/update", adminController.UpdateAdmin)
+		adminRouter.PUT("/admin/update/:adminId", adminController.UpdateAdmin)
 		adminRouter.GET("/admin/permission", adminController.GetAdminPermissionList)
 		adminRouter.GET("/user/list", userController.GetUserList)
 		adminRouter.PUT("/user/:userId", userController.UpdateUser)

@@ -15,8 +15,8 @@ func (adminService *AdminService) GetAdminList(page int, limit int) *utils.Pagin
 	db.DB.Offset((page - 1) * limit).Limit(limit).Find(&adminList).Offset(-1).Count(&count)
 	return utils.NewPaginate(count, page, limit, adminList)
 }
-func (adminService *AdminService) UpdateAdmin(adminId uint) {
-	db.DB.Model(&models.Admin{}).Where("id=?", adminId).Update("name", "admin1")
+func (adminService *AdminService) UpdateAdmin(admin models.Admin) int64 {
+	return db.DB.Save(&admin).RowsAffected
 }
 func (adminService *AdminService) GetAdminById(adminId uint) (admin models.Admin) {
 	db.DB.First(&admin, adminId)

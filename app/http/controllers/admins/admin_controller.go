@@ -37,7 +37,53 @@ func (ac AdminController) GetAdminList(ctx *gin.Context) {
 	ac.Success(ctx, adminList)
 }
 func (ac *AdminController) UpdateAdmin(ctx *gin.Context) {
-	adminService.UpdateAdmin(1)
+	adminForm := struct {
+		AdminId uint `uri:"adminId" binding:"required"`
+	}{}
+	if err := ctx.ShouldBindUri(&adminForm); err != nil {
+		lang := make(map[string]string)
+		lang["AdminId"] = "管理员id"
+		err := ac.Translate(err, lang)
+		if err != nil {
+			ac.Error(ctx, err.Error())
+			return
+		} else {
+			ac.Error(ctx, "")
+			return
+		}
+	}
+
+	form := struct {
+		Name     string `form:"name" binding:"required"`
+		Password string `form:"password" binding:"omitempty"`
+		RoleId   uint   `form:"roleId" binding:"required,gt=0"`
+	}{}
+	if err := ctx.ShouldBind(&form); err != nil {
+		lang := make(map[string]string)
+		lang["Name"] = "管理员名称"
+		lang["Password"] = "密码"
+		lang["RoleId"] = "角色id"
+		err := ac.Translate(err, lang)
+		if err != nil {
+			ac.Error(ctx, err.Error())
+			return
+		} else {
+			ac.Error(ctx, "")
+			return
+		}
+	}
+	adminOld := adminService.GetAdminByName(form.Name)
+	if adminOld.ID != adminForm.AdminId {
+		ac.Error(ctx, "管理员已经存在！换个名字试试！")
+		return
+	}
+	admin := adminService.GetAdminById(adminForm.AdminId)
+	if form.Password != "" {
+		admin.Password = utils.EncodeMD5(form.Password)
+	}
+	admin.RoleId = form.RoleId
+	adminService.UpdateAdmin(admin)
+	ac.Success(ctx, gin.H{})
 }
 func (ac *AdminController) GetAdminInfo(ctx *gin.Context) {
 	adminId, err := utils.ParseToken(ctx)
