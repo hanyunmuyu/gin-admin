@@ -49,3 +49,7 @@ func (r *RoleService) AddRolePermission(rolePermissionList []models.RolePermissi
 func (r *RoleService) AddRole(role models.Role) int64 {
 	return db.DB.Create(&role).RowsAffected
 }
+func (r *RoleService) GetAllRole() (roleList []models.Role) {
+	db.DB.Find(&roleList)
+	return
+}

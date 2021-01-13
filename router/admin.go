@@ -39,6 +39,7 @@ func adminRouter() {
 		adminRouter.GET("/role/detail/:roleId", roleController.GetRoleDetail)
 		adminRouter.PUT("/role/update/:roleId", roleController.UpdateRole)
 		adminRouter.POST("/role/add", roleController.AddRole)
+		adminRouter.GET("/role/all", roleController.GetAllRole)
 		adminRouter.DELETE("/role/delete/:roleId", roleController.DeleteRole)
 	}
 }

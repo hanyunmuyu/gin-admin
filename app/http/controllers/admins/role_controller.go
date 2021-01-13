@@ -225,3 +225,7 @@ func (r *RoleController) AddRole(ctx *gin.Context) {
 	roleService.AddRolePermission(rolePermissionList)
 	r.Success(ctx, gin.H{})
 }
+func (r RoleController) GetAllRole(ctx *gin.Context) {
+	roleList := roleService.GetAllRole()
+	r.Success(ctx, roleList)
+}
