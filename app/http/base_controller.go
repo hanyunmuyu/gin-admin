@@ -14,10 +14,10 @@ type BaseController struct {
 
 func (base *BaseController) Success(ctx *gin.Context, data interface{}) {
 
-	ctx.JSON(http.StatusOK, gin.H{"msg": "success", "code": 200, "data": data})
+	ctx.JSON(http.StatusOK, gin.H{"msg": "success", "code": 0, "data": data})
 }
 func (base *BaseController) Error(ctx *gin.Context, msg string) {
-	ctx.AbortWithStatusJSON(http.StatusOK, gin.H{"msg": msg, "code": 0})
+	ctx.AbortWithStatusJSON(http.StatusOK, gin.H{"msg": msg, "code": 1})
 }
 func (base *BaseController) Translate(err error, lang map[string]string) error {
 	if errs, ok := err.(validator.ValidationErrors); ok {
