@@ -106,3 +106,33 @@ func (ac *AdminController) GetAdminPermissionList(ctx *gin.Context) {
 	permissionList, _ := roleService.GetRolePermission(role)
 	ac.Success(ctx, permissionList)
 }
+func (ac *AdminController) DeleteAdmin(ctx *gin.Context) {
+	adminForm := struct {
+		AdminId uint `uri:"adminId" binding:"required"`
+	}{}
+	if err := ctx.ShouldBindUri(&adminForm); err != nil {
+		lang := make(map[string]string)
+		lang["AdminId"] = "管理员id"
+		err := ac.Translate(err, lang)
+		if err != nil {
+			ac.Error(ctx, err.Error())
+			return
+		} else {
+			ac.Error(ctx, "")
+			return
+		}
+	}
+	if adminForm.AdminId == 1 {
+		ac.Error(ctx, "id为1的管理员禁止删除")
+		return
+	}
+	admin := adminService.GetAdminById(adminForm.AdminId)
+	if admin.ID == 0 {
+		ac.Error(ctx, "管理员不存在")
+	}
+	if row := adminService.DeleteAdmin(admin.ID); row > 0 {
+		ac.Success(ctx, gin.H{})
+	} else {
+		ac.Error(ctx, "删除失败")
+	}
+}

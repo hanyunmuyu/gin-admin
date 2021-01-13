@@ -26,3 +26,6 @@ func (adminService AdminService) GetAdminByName(name string) (admin models.Admin
 	db.DB.Where("name=?", name).First(&admin)
 	return
 }
+func (adminService AdminService) DeleteAdmin(adminId uint) int64 {
+	return db.DB.Delete(&models.Admin{}, adminId).RowsAffected
+}
