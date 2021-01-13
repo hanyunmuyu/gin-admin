@@ -24,18 +24,39 @@ func (p PermissionSeeder) Run() {
 		Path:           "/admin/dashboard",
 		PermissionList: nil,
 	})
-	var rolePermission []models.Permission
-	rolePermission = append(rolePermission, models.Permission{
+	var rolePermission models.Permission
+	var rolePermissionList []models.Permission
+	rolePermission = models.Permission{
+		ApiPath:  "/admin/v1/role/list",
+		Rule:     "/admin/role/list",
+		Method:   "get",
+		Title:    "角色管理",
+		ParentId: 0,
+		IsMenu:   1,
+		Path:     "/admin/role",
+	}
+	rolePermission.PermissionList = append(rolePermissionList, models.Permission{
 		ApiPath:  "/admin/v1/role/list",
 		Rule:     "/admin/role/list",
 		Method:   "get",
 		Title:    "角色列表",
 		ParentId: 0,
-		IsMenu:   0,
+		IsMenu:   1,
 		Path:     "/admin/role/list",
 	})
-	permissionList = append(permissionList, rolePermission...)
-	db.DB.Create(permissionList)
+
+	rolePermissionList = append(rolePermissionList, rolePermission)
+	permissionList = append(permissionList, rolePermissionList...)
+	for _, permission := range permissionList {
+		db.DB.Create(&permission)
+		if len(permission.PermissionList) > 0 {
+			for i, p := range permission.PermissionList {
+				p.ParentId = permission.ID
+				permission.PermissionList[i] = p
+			}
+			db.DB.Create(permission.PermissionList)
+		}
+	}
 }
 
 func (p PermissionSeeder) Drop() {

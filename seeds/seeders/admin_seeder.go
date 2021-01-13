@@ -17,6 +17,7 @@ func NewAdminSeeder() *AdminSeeder {
 func (a *AdminSeeder) Run() {
 	for i := 1; i <= 100; i++ {
 		admin := models.Admin{}
+		admin.RoleId = uint(i)
 		admin.Name = fmt.Sprintf("admin%v", i)
 		admin.Password = utils.EncodeMD5("123456")
 		db.DB.Create(&admin)
