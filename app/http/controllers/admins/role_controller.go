@@ -25,7 +25,7 @@ type RoleController struct {
 // @version 1.0
 // @Param page query int false "页码" default(1)
 // @success 200 {object} utils.JSONResult{data=[]utils.Paginate}
-// @Router /admin/v1/role/list [GET]
+// @Router /admin/role/list [GET]
 func (r *RoleController) GetRoleList(ctx *gin.Context) {
 	page := 1
 	if p, err := strconv.Atoi(ctx.DefaultQuery("page", "1")); err == nil {
@@ -53,7 +53,7 @@ func (r *RoleController) GetRoleList(ctx *gin.Context) {
 // @Tags  admin
 // @version 1.0
 // @success 200 {object} utils.JSONResult{data=models.Role}
-// @Router /admin/v1/role/detail/{roleId} [GET]
+// @Router /admin/role/detail/{roleId} [GET]
 func (r *RoleController) GetRoleDetail(ctx *gin.Context) {
 	form := struct {
 		RoleId uint `json:"roleId" uri:"roleId" binding:"required,gte=1"`
@@ -92,7 +92,7 @@ func (r *RoleController) GetRoleDetail(ctx *gin.Context) {
 // @Tags  admin
 // @version 1.0
 // @success 200 {object} utils.JSONResult{}
-// @Router /admin/v1/role/update/{roleId} [PUT]
+// @Router /admin/role/update/{roleId} [PUT]
 func (r *RoleController) UpdateRole(ctx *gin.Context) {
 	form := struct {
 		RoleId uint `uri:"roleId" binding:"required,gte=1"`
@@ -156,7 +156,7 @@ func (r *RoleController) UpdateRole(ctx *gin.Context) {
 // @Tags  admin
 // @version 1.0
 // @success 200 {object} utils.JSONResult{}
-// @Router /admin/v1/role/delete/{roleId} [DELETE]
+// @Router /admin/role/delete/{roleId} [DELETE]
 func (r *RoleController) DeleteRole(ctx *gin.Context) {
 	form := struct {
 		RoleId uint `uri:"roleId" binding:"required,gte=1"`

@@ -21,7 +21,7 @@ type LoginController struct {
 // @Param name formData string true "用户名"
 // @Param password formData string true "密码"
 // @success 200 {object} utils.JSONResult{data=map[string]string} "成功"
-// @Router /admin/v1/login [POST]
+// @Router /admin/login [POST]
 func (login *LoginController) Login(ctx *gin.Context) {
 	loginStruct := struct {
 		Name     string `json:"name" form:"name" binding:"required"`

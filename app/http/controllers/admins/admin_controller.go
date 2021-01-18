@@ -26,7 +26,7 @@ type AdminController struct {
 // @version 1.0
 // @Param page query int false "页码" default(1)
 // @success 200 {object} utils.JSONResult{data=utils.Paginate}
-// @Router /admin/v1/admin/list [GET]
+// @Router /admin/admin/list [GET]
 func (ac AdminController) GetAdminList(ctx *gin.Context) {
 	page := 1
 	if p, err := strconv.Atoi(ctx.DefaultQuery("page", "1")); err == nil {

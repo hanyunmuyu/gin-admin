@@ -21,7 +21,7 @@ type UploadController struct {
 // @version 1.0
 // @Param file formData file true "文件"
 // @success 200 {object} utils.JSONResult{data=map[string]string} "成功"
-// @Router /admin/v1/upload [POST]
+// @Router /admin/upload [POST]
 func (upload *UploadController) Upload(ctx *gin.Context) {
 	file, err := ctx.FormFile("file")
 	if err != nil {
@@ -52,7 +52,7 @@ func (upload *UploadController) Upload(ctx *gin.Context) {
 // @Tags  admin
 // @version 1.0
 // @success 200 object utils.JSONResult{data=[]string} "成功"
-// @Router /admin/v1/upload/multi [POST]
+// @Router /admin/upload/multi [POST]
 func (upload *UploadController) UploadMulti(ctx *gin.Context) {
 
 	form, err := ctx.MultipartForm()

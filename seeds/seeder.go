@@ -9,6 +9,7 @@ var seederList = []Seeder{
 	seeders.NewRoleSeeder(),
 	seeders.NewAdminSeeder(),
 	seeders.NewUserSeeder(),
+	seeders.NewMessageSeeder(),
 }
 
 type Seeder interface {

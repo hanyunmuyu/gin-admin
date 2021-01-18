@@ -28,7 +28,7 @@ type UserController struct {
 // @version 1.0
 // @Param page query int false "页码" default(1)
 // @success 200 {object} utils.JSONResult{data=utils.Paginate}
-// @Router /admin/v1/user/list [GET]
+// @Router /admin/user/list [GET]
 func (userController *UserController) GetUserList(ctx *gin.Context) {
 	page := 1
 	if p, err := strconv.Atoi(ctx.DefaultQuery("page", "1")); err != nil {
@@ -52,7 +52,7 @@ func (userController *UserController) GetUserList(ctx *gin.Context) {
 // @Param avatar formData string false "头像"
 // @Param name formData string false "用户名"
 // @success 200 {object} utils.JSONResult{} "更新成功"
-// @Router /admin/v1/user/{userId} [PUT]
+// @Router /admin/user/{userId} [PUT]
 func (userController *UserController) UpdateUser(ctx *gin.Context) {
 	form := struct {
 		UserId uint `json:"userId" uri:"userId" binding:"required"`
@@ -141,7 +141,7 @@ func (userController *UserController) UpdateUser(ctx *gin.Context) {
 // @version 1.0
 // @Param userId path int true "用户id" min(1)
 // @success 200 {object} utils.JSONResult{} "删除成功"
-// @Router /admin/v1/user/{userId} [delete]
+// @Router /admin/user/{userId} [delete]
 func (userController *UserController) DeleteUser(ctx *gin.Context) {
 	form := struct {
 		UserId uint `json:"userId" uri:"userId" binding:"required"`

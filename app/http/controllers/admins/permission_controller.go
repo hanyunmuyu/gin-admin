@@ -28,7 +28,7 @@ type PermissionController struct {
 // @Tags  admin
 // @version 1.0
 // @success 200 {object} utils.JSONResult{data=[]models.Permission}
-// @Router /admin/v1/permission/list [GET]
+// @Router /admin/permission/list [GET]
 func (p *PermissionController) GetPermissionList(ctx *gin.Context) {
 	permissionList := permissionService.GetPermissionList()
 	p.Success(ctx, permissionList)

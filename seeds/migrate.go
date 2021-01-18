@@ -12,5 +12,6 @@ func migrate() {
 		models.RolePermission{},
 		models.Admin{},
 		models.User{},
+		models.Message{},
 	)
 }

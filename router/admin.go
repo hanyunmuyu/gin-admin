@@ -15,6 +15,7 @@ var (
 	permissionController = admins.PermissionController{}
 	roleController       = admins.RoleController{}
 	uploadController     = admins.UploadController{}
+	messageController    = admins.MessageController{}
 )
 
 func adminRouter() {
@@ -42,5 +43,6 @@ func adminRouter() {
 		adminRouter.POST("/role/add", roleController.AddRole)
 		adminRouter.GET("/role/all", roleController.GetAllRole)
 		adminRouter.DELETE("/role/delete/:roleId", roleController.DeleteRole)
+		adminRouter.GET("/message", messageController.GetMessageList)
 	}
 }
