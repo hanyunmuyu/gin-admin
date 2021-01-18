@@ -31,7 +31,7 @@ type UserController struct {
 // @Router /admin/user/list [GET]
 func (userController *UserController) GetUserList(ctx *gin.Context) {
 	page := 1
-	if p, err := strconv.Atoi(ctx.DefaultQuery("page", "1")); err != nil {
+	if p, err := strconv.Atoi(ctx.DefaultQuery("page", "1")); err == nil {
 		page = p
 	}
 	userList := userService.GetUserList(page, 15)

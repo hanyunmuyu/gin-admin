@@ -68,21 +68,54 @@ func (p PermissionSeeder) Run() {
 	})
 	adminPermission.PermissionList = adminPermissionList
 
+	var userPermission models.Permission
+	var userPermissionList []models.Permission
+	userPermission = models.Permission{
+		ApiPath:  "/admin/user",
+		Rule:     "/admin/user",
+		Method:   "GET",
+		Title:    "用户管理",
+		ParentId: 0,
+		IsMenu:   1,
+		Path:     "/admin/user",
+	}
+	userPermissionList = append(userPermissionList, models.Permission{
+		ApiPath:  "",
+		Rule:     "",
+		Method:   "GET",
+		Title:    "用户列表",
+		ParentId: 0,
+		IsMenu:   0,
+		Path:     "/admin/user/list",
+		PermissionList: []models.Permission{
+			models.Permission{
+				ApiPath:  "",
+				Rule:     "",
+				Method:   "DELETE",
+				Title:    "删除用户",
+				ParentId: 0,
+				IsMenu:   0,
+				Path:     "deleteUser",
+			},
+		},
+	})
+	userPermission.PermissionList = userPermissionList
+
 	permissionList = append(permissionList, rolePermission)
 	permissionList = append(permissionList, adminPermission)
+	permissionList = append(permissionList, userPermission)
 
+	initPermission(permissionList, 0)
+}
+func initPermission(permissionList []models.Permission, parentId uint) {
 	for _, permission := range permissionList {
+		permission.ParentId = parentId
 		db.DB.Create(&permission)
 		if len(permission.PermissionList) > 0 {
-			for i, p := range permission.PermissionList {
-				p.ParentId = permission.ID
-				permission.PermissionList[i] = p
-			}
-			db.DB.Create(permission.PermissionList)
+			initPermission(permission.PermissionList, permission.ID)
 		}
 	}
 }
-
 func (p PermissionSeeder) Drop() {
 	db.DB.Exec("DROP TABLE IF EXISTS permissions")
 }
