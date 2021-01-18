@@ -18,6 +18,7 @@ func (ms MessageService) GetMessageList(page, limit int) *utils.Paginate {
 func (ms MessageService) DeleteMessage(messageId uint) {
 
 }
-func (ms MessageService) GetMessageDetailById(messageId uint) (msg models.Message) {
+func (ms MessageService) GetMessageById(messageId uint) (msg models.Message) {
+	db.DB.First(&msg, messageId)
 	return
 }

@@ -44,5 +44,6 @@ func adminRouter() {
 		adminRouter.GET("/role/all", roleController.GetAllRole)
 		adminRouter.DELETE("/role/delete/:roleId", roleController.DeleteRole)
 		adminRouter.GET("/message", messageController.GetMessageList)
+		adminRouter.GET("/message/:id", messageController.GetMessageDetail)
 	}
 }

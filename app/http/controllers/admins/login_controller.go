@@ -18,8 +18,8 @@ type LoginController struct {
 // @Accept mpfd
 // @Produce json
 // @version 1.0
-// @Param name formData string true "用户名"
-// @Param password formData string true "密码"
+// @Param name formData string true "用户名" default(admin1)
+// @Param password formData string true "密码" default(123456)
 // @success 200 {object} utils.JSONResult{data=map[string]string} "成功"
 // @Router /admin/login [POST]
 func (login *LoginController) Login(ctx *gin.Context) {
