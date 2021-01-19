@@ -85,6 +85,26 @@ func (p PermissionSeeder) Run() {
 		ParentId: 0,
 		IsMenu:   0,
 		Path:     "/admin/admin/list",
+		PermissionList: []models.Permission{
+			models.Permission{
+				ApiPath:  "/admin/admin/update/:adminId",
+				Rule:     "",
+				Method:   "PUT",
+				Title:    "编辑管理员信息",
+				ParentId: 0,
+				IsMenu:   0,
+				Path:     "editAdmin",
+			},
+			models.Permission{
+				ApiPath:  "/admin/admin/update/:adminId",
+				Rule:     "",
+				Method:   "PUT",
+				Title:    "删除管理员",
+				ParentId: 0,
+				IsMenu:   0,
+				Path:     "deleteAdmin",
+			},
+		},
 	})
 	adminPermission.PermissionList = adminPermissionList
 
