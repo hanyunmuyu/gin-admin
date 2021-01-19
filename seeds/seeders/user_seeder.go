@@ -19,6 +19,7 @@ func (u *UserSeeder) Run() {
 		user := models.User{}
 		user.Name = fmt.Sprintf("user%v", i)
 		user.Password = utils.EncodeMD5("123456")
+		user.Mobile = "12345678910"
 		db.DB.Create(&user)
 	}
 }

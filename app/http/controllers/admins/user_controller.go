@@ -105,7 +105,7 @@ func (userController *UserController) UpdateUser(ctx *gin.Context) {
 		user.Email = userForm.Email
 	}
 	if userForm.Mobile != "" {
-		if u := userService.GetUserByMobile(userForm.Mobile); u.ID != user.ID {
+		if u, row := userService.GetUserByMobile(userForm.Mobile); row > 0 && u.ID != user.ID {
 			userController.Error(ctx, "手机号已经存在")
 			return
 		}

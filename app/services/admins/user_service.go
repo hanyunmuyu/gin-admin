@@ -27,8 +27,8 @@ func (userService *UserService) GetUserByName(userName string) (user models.User
 	db.DB.Where("name=?", userName).First(&user)
 	return
 }
-func (userService *UserService) GetUserByMobile(mobile string) (user models.User) {
-	db.DB.Where("mobile=?", mobile).First(&user)
+func (userService *UserService) GetUserByMobile(mobile string) (user models.User, row int64) {
+	row = db.DB.Where("mobile=?", mobile).First(&user).RowsAffected
 	return
 }
 func (userService *UserService) GetUserByEmail(email string) (user models.User) {
