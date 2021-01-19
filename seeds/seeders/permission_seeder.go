@@ -43,6 +43,26 @@ func (p PermissionSeeder) Run() {
 		ParentId: 0,
 		IsMenu:   1,
 		Path:     "/admin/role/list",
+		PermissionList: []models.Permission{
+			models.Permission{
+				ApiPath:  "/role/update/:roleId",
+				Rule:     "",
+				Method:   "PUT",
+				Title:    "编辑角色",
+				ParentId: 0,
+				IsMenu:   0,
+				Path:     "editRole",
+			},
+			models.Permission{
+				ApiPath:  "/role/update/:roleId",
+				Rule:     "",
+				Method:   "DELETE",
+				Title:    "删除角色",
+				ParentId: 0,
+				IsMenu:   0,
+				Path:     "deleteRole",
+			},
+		},
 	})
 
 	rolePermissionList = append(rolePermissionList, rolePermission)
@@ -96,6 +116,15 @@ func (p PermissionSeeder) Run() {
 				ParentId: 0,
 				IsMenu:   0,
 				Path:     "deleteUser",
+			},
+			models.Permission{
+				ApiPath:  "",
+				Rule:     "",
+				Method:   "PUT",
+				Title:    "编辑用户信息",
+				ParentId: 0,
+				IsMenu:   0,
+				Path:     "editUser",
 			},
 		},
 	})
