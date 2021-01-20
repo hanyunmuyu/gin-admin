@@ -69,12 +69,14 @@ jwt:
 	config = strings.ReplaceAll(config, "{password}", form.Password)
 	var d1 = []byte(config)
 	dir, _ := os.Getwd()
-	err := ioutil.WriteFile("./env.yml", d1, 0666) //写入文件(字节数组)
 	mainFile := dir + "/main"
-	_, err = os.Stat(mainFile)
+	envFile := dir + "/env.yml"
+	_, err := os.Stat(mainFile)
 	if err != nil {
 		mainFile = "/Applications/react-desktop.app/Contents/Resources/main"
+		envFile = "/Applications/react-desktop.app/Contents/Resources/env.yml"
 	}
+	err = ioutil.WriteFile(envFile, d1, 0666) //写入文件(字节数组)
 	cmd := exec.Command(mainFile, "seed")
 	cmd.Stderr = os.Stderr
 	cmd.Stdout = os.Stdout
