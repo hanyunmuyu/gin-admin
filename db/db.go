@@ -14,7 +14,6 @@ var (
 )
 
 func init() {
-
 	v := utils.Config()
 	v.WatchConfig()
 	v.OnConfigChange(func(e fsnotify.Event) {
@@ -48,7 +47,7 @@ func connect() (db *gorm.DB, err error) {
 
 		// SetConnMaxLifetime sets the maximum amount of time a connection may be reused.
 		sqlDB.SetConnMaxLifetime(time.Hour)
-		return DB, err
+		return DB, nil
 	} else {
 		return nil, err
 	}

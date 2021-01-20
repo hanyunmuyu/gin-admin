@@ -16,6 +16,7 @@ var (
 	roleController       = admins.RoleController{}
 	uploadController     = admins.UploadController{}
 	messageController    = admins.MessageController{}
+	configController     = admins.ConfigController{}
 )
 
 func adminRouter() {
@@ -24,6 +25,8 @@ func adminRouter() {
 	r.GET("/swagger/*any", ginSwagger.WrapHandler(swaggerFiles.Handler, url))
 	adminRouter := r.Group("/admin")
 	adminRouter.POST("/login", loginController.Login)
+	adminRouter.POST("/config", configController.Init)
+	adminRouter.GET("/config/check", configController.Check)
 	adminRouter.POST("/upload", uploadController.Upload)
 	adminRouter.POST("/upload/multi", uploadController.UploadMulti)
 	adminRouter.Use(middleware.AdminJwt())

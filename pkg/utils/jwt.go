@@ -3,17 +3,32 @@ package utils
 import (
 	"fmt"
 	"github.com/dgrijalva/jwt-go"
+	"github.com/fsnotify/fsnotify"
 	"github.com/gin-gonic/gin"
 	"strconv"
 	"time"
 )
 
+var sKey string = ""
+
+func init() {
+	sKey = v.GetString("mysql.db")
+
+}
+func getKey() {
+	v := Config()
+	v.WatchConfig()
+	v.OnConfigChange(func(e fsnotify.Event) {
+		sKey = v.GetString("mysql.db")
+	})
+}
 func CreateToken(key string, data interface{}) (string, error) {
+	getKey()
 	at := jwt.NewWithClaims(jwt.SigningMethodHS256, jwt.MapClaims{
 		key:   data,
 		"exp": time.Now().Add(time.Hour * time.Duration(24*Config().GetInt("jwt.expiresAt"))).Unix(),
 	})
-	token, err := at.SignedString([]byte(Config().GetString("jwt.signingKey")))
+	token, err := at.SignedString([]byte(sKey))
 	if err != nil {
 		return "", err
 	}
@@ -21,9 +36,10 @@ func CreateToken(key string, data interface{}) (string, error) {
 }
 
 func ParseToken(ctx *gin.Context) (uint, error) {
+	getKey()
 	authorization := ctx.GetHeader("Authorization")
 	claim, err := jwt.Parse(authorization, func(token *jwt.Token) (interface{}, error) {
-		return []byte(Config().GetString("jwt.signingKey")), nil
+		return []byte(sKey), nil
 	})
 	if err != nil {
 		return 0, err

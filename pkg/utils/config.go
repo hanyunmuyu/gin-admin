@@ -1,6 +1,7 @@
 package utils
 
 import (
+	"fmt"
 	"github.com/spf13/viper"
 	_ "github.com/spf13/viper"
 	"os"
@@ -29,6 +30,8 @@ func Config() *viper.Viper {
 				return v
 			}
 		}
+	} else {
+		fmt.Println(err)
 	}
 
 	return v
