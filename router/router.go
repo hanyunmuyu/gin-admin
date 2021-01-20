@@ -14,6 +14,7 @@ var engine *gin.Engine
 
 func init() {
 	binding.Validator = new(utils.DefaultValidator)
+	gin.SetMode(gin.ReleaseMode)
 	engine = gin.Default()
 	defaultConfig := cors.DefaultConfig()
 	defaultConfig.AllowAllOrigins = true
