@@ -9,21 +9,17 @@ import (
 	"time"
 )
 
-var sKey string = ""
-
-func init() {
-	sKey = v.GetString("mysql.db")
-
-}
-func getKey() {
+func getKey() string {
+	var sKey string
 	v := Config()
 	v.WatchConfig()
 	v.OnConfigChange(func(e fsnotify.Event) {
-		sKey = v.GetString("mysql.db")
+		sKey = v.GetString("jwt.signingKey")
 	})
+	return sKey
 }
 func CreateToken(key string, data interface{}) (string, error) {
-	getKey()
+	sKey := getKey()
 	at := jwt.NewWithClaims(jwt.SigningMethodHS256, jwt.MapClaims{
 		key:   data,
 		"exp": time.Now().Add(time.Hour * time.Duration(24*Config().GetInt("jwt.expiresAt"))).Unix(),
@@ -36,7 +32,7 @@ func CreateToken(key string, data interface{}) (string, error) {
 }
 
 func ParseToken(ctx *gin.Context) (uint, error) {
-	getKey()
+	sKey := getKey()
 	authorization := ctx.GetHeader("Authorization")
 	claim, err := jwt.Parse(authorization, func(token *jwt.Token) (interface{}, error) {
 		return []byte(sKey), nil
