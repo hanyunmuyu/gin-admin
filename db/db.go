@@ -13,16 +13,9 @@ var (
 )
 
 func init() {
-	for {
-		if _, err := connect(); err == nil {
-			break
-		} else {
-			fmt.Println(err)
-			time.Sleep(2 * time.Second)
-		}
-	}
+	_, _ = Connect()
 }
-func connect() (db *gorm.DB, err error) {
+func Connect() (db *gorm.DB, err error) {
 	dsn := fmt.Sprintf(
 		"%v:%v@tcp(%v:%v)/%v?charset=%v&parseTime=True&loc=Local",
 		utils.Config().GetString("mysql.username"),

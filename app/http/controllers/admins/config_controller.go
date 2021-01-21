@@ -3,6 +3,7 @@ package admins
 import (
 	"fmt"
 	"gin-admin/app/http"
+	db2 "gin-admin/db"
 	"gin-admin/pkg/utils"
 	"github.com/fsnotify/fsnotify"
 	"github.com/gin-gonic/gin"
@@ -94,6 +95,7 @@ func (c ConfigController) Check(ctx *gin.Context) {
 	v.OnConfigChange(func(e fsnotify.Event) {
 		db = v.GetString("mysql.db")
 	})
+	_, _ = db2.Connect()
 	if db == "" {
 		c.Error(ctx, db)
 	} else {
