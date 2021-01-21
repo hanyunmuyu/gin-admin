@@ -10,9 +10,8 @@ import (
 )
 
 func getKey() string {
-	var sKey string
+	var sKey = v.GetString("jwt.signingKey")
 	v := Config()
-	v.WatchConfig()
 	v.OnConfigChange(func(e fsnotify.Event) {
 		sKey = v.GetString("jwt.signingKey")
 	})

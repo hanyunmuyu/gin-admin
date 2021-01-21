@@ -3,7 +3,6 @@ package db
 import (
 	"fmt"
 	"gin-admin/pkg/utils"
-	"github.com/fsnotify/fsnotify"
 	"gorm.io/driver/mysql"
 	"gorm.io/gorm"
 	"time"
@@ -14,15 +13,13 @@ var (
 )
 
 func init() {
-	v := utils.Config()
-	v.WatchConfig()
-	v.OnConfigChange(func(e fsnotify.Event) {
-		if _, err := connect(); err != nil {
+	for {
+		if _, err := connect(); err == nil {
+			break
+		} else {
 			fmt.Println(err)
+			time.Sleep(2 * time.Second)
 		}
-	})
-	if _, err := connect(); err != nil {
-		fmt.Println(err)
 	}
 }
 func connect() (db *gorm.DB, err error) {

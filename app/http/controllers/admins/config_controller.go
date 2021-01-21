@@ -33,7 +33,7 @@ mysql:
   port: "{port}"
   username: "{name}"
   password: "{password}"
-  db: "admin"
+  db: "{db}"
   charset: "utf8mb4"
 jwt:
   signingKey: "tnjKJX2u6hhNA9M94ZVqJlwvWJImy6kDQAPhQamtpR9KxOjzORz75FhG7Vic8tsn"
@@ -52,6 +52,7 @@ jwt:
 		lang := make(map[string]string)
 		lang["Name"] = "用户名"
 		lang["Password"] = "密码"
+		lang["DB"] = "数据库"
 		lang["Port"] = "端口号"
 		lang["Host"] = "数据库连接地址"
 		err := c.Translate(err, lang)
@@ -89,7 +90,6 @@ jwt:
 }
 func (c ConfigController) Check(ctx *gin.Context) {
 	v := utils.Config()
-	v.WatchConfig()
 	db := v.GetString("mysql.db")
 	v.OnConfigChange(func(e fsnotify.Event) {
 		db = v.GetString("mysql.db")
