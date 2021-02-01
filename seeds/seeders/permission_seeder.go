@@ -158,7 +158,7 @@ func (p PermissionSeeder) Run() {
 		Title:    "活动管理",
 		ParentId: 0,
 		IsMenu:   0,
-		Path:     "/admin/activity/list",
+		Path:     "",
 	}
 	activityPermissionList = append(activityPermissionList, models.Permission{
 		ApiPath:  "/admin/activity",
