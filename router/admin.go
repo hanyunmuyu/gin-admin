@@ -17,6 +17,7 @@ var (
 	uploadController     = admins.UploadController{}
 	messageController    = admins.MessageController{}
 	configController     = admins.ConfigController{}
+	activityController   = admins.ActivityController{}
 )
 
 func adminRouter() {
@@ -48,5 +49,6 @@ func adminRouter() {
 		adminRouter.DELETE("/role/delete/:roleId", roleController.DeleteRole)
 		adminRouter.GET("/message", messageController.GetMessageList)
 		adminRouter.GET("/message/:id", messageController.GetMessageDetail)
+		adminRouter.GET("/activity", activityController.GetActivityList)
 	}
 }

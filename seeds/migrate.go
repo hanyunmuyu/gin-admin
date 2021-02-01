@@ -13,5 +13,6 @@ func migrate() {
 		models.Admin{},
 		models.User{},
 		models.Message{},
+		models.Activity{},
 	)
 }
