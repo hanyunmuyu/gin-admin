@@ -21,6 +21,7 @@ require (
 	github.com/ugorji/go v1.2.2 // indirect
 	golang.org/x/crypto v0.0.0-20201221181555-eec23a3978ad // indirect
 	golang.org/x/net v0.0.0-20201224014010-6772e930b67b // indirect
+	golang.org/x/sync v0.0.0-20201020160332-67f06af15bc9
 	golang.org/x/sys v0.0.0-20210104204734-6f8348627aad // indirect
 	golang.org/x/tools v0.0.0-20210104081019-d8d6ddbec6ee // indirect
 	google.golang.org/protobuf v1.25.0 // indirect
