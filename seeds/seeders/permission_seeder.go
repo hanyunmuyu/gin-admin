@@ -150,9 +150,31 @@ func (p PermissionSeeder) Run() {
 	})
 	userPermission.PermissionList = userPermissionList
 
+	var activityPermissionList []models.Permission
+	activityPermission := models.Permission{
+		ApiPath:  "",
+		Rule:     "",
+		Method:   "",
+		Title:    "活动管理",
+		ParentId: 0,
+		IsMenu:   0,
+		Path:     "/admin/activity/list",
+	}
+	activityPermissionList = append(activityPermissionList, models.Permission{
+		ApiPath:  "/admin/activity",
+		Rule:     "/admin/activity",
+		Method:   "GET",
+		Title:    "活动列表",
+		ParentId: 0,
+		IsMenu:   0,
+		Path:     "/admin/activity/list",
+	})
+	activityPermission.PermissionList = activityPermissionList
+
 	permissionList = append(permissionList, rolePermission)
 	permissionList = append(permissionList, adminPermission)
 	permissionList = append(permissionList, userPermission)
+	permissionList = append(permissionList, activityPermission)
 
 	initPermission(permissionList, 0)
 }
