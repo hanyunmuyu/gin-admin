@@ -34,12 +34,6 @@ var (
 	g errgroup.Group
 )
 
-func router02() http.Handler {
-	e := gin.New()
-	e.Use(gin.Recovery())
-	e.Static("/", "./static")
-	return e
-}
 func Run() {
 	//taskRouter()
 	//apiRouter()
@@ -52,20 +46,9 @@ func Run() {
 		WriteTimeout:   time.Duration(5) * time.Second,
 		MaxHeaderBytes: 1 << 20,
 	}
-	server02 := &http.Server{
-		Addr:         ":889",
-		Handler:      router02(),
-		ReadTimeout:  5 * time.Second,
-		WriteTimeout: 10 * time.Second,
-	}
 	g.Go(func() error {
 		return s.ListenAndServe()
 	})
-
-	g.Go(func() error {
-		return server02.ListenAndServe()
-	})
-
 	if err := g.Wait(); err != nil {
 		log.Fatal(err)
 	}
