@@ -62,6 +62,15 @@ func (p PermissionSeeder) Run() {
 				IsMenu:   0,
 				Path:     "deleteRole",
 			},
+			models.Permission{
+				ApiPath:  "/role/add",
+				Rule:     "/role/add",
+				Method:   "POST",
+				Title:    "添加角色",
+				ParentId: 0,
+				IsMenu:   0,
+				Path:     "roleAdd",
+			},
 		},
 	})
 
