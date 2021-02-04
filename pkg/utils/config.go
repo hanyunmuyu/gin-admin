@@ -6,9 +6,11 @@ import (
 	_ "github.com/spf13/viper"
 	"os"
 	"path/filepath"
+	"sync"
 )
 
 var v *viper.Viper
+var m sync.Mutex
 
 func init() {
 	v = viper.New()
@@ -18,6 +20,8 @@ func Config() *viper.Viper {
 		v.SetConfigName("env")  //设置配置文件的名字
 		v.AddConfigPath(dir)    //添加配置文件所在的路径
 		v.SetConfigType("yaml") // or viper.SetConfigType("YAML")
+		m.Lock()
+		defer m.Unlock()
 		if err := v.ReadInConfig(); err == nil {
 			v.WatchConfig()
 			return v
