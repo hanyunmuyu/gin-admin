@@ -25,3 +25,6 @@ func (p ProductService) GetProductById(productId int) (product models.Product) {
 func (p ProductService) DeleteProductByProductId(productId int) int64 {
 	return db.DB.Delete(&models.Product{}, productId).RowsAffected
 }
+func (p ProductService) UpdateProduct(product models.Product) int64 {
+	return db.DB.Save(&product).RowsAffected
+}

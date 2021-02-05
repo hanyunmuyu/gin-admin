@@ -34,7 +34,7 @@ func (p *ProductController) DeleteProduct(ctx *gin.Context) {
 	}
 	product := productService.GetProductById(productId)
 	if product.ID == 0 {
-		p.Error(ctx, "产品不能存在")
+		p.Error(ctx, "产品不存在")
 		return
 	}
 	row := productService.DeleteProductByProductId(productId)
@@ -43,4 +43,40 @@ func (p *ProductController) DeleteProduct(ctx *gin.Context) {
 		return
 	}
 	p.Success(ctx, gin.H{})
+}
+func (p *ProductController) UpdateProduct(ctx *gin.Context) {
+	productId := 0
+	if p, err := strconv.Atoi(ctx.Param("productId")); err == nil {
+		productId = p
+	}
+	if productId <= 0 {
+		p.Error(ctx, "productId >0")
+		return
+	}
+	product := productService.GetProductById(productId)
+	if product.ID == 0 {
+		p.Error(ctx, "产品不存在")
+		return
+	}
+	form := struct {
+		Name        string `json:"name" form:"name" `
+		Description string `json:"description" form:"description"`
+	}{}
+	if err := ctx.ShouldBindJSON(&form); err != nil {
+		p.Error(ctx, err.Error())
+		return
+	}
+
+	if form.Name != "" {
+		product.Name = form.Name
+	}
+	if form.Description != "" {
+		product.Description = form.Description
+	}
+	row := productService.UpdateProduct(product)
+	if row > 0 {
+		p.Success(ctx, gin.H{})
+	} else {
+		p.Error(ctx, "更新失败")
+	}
 }

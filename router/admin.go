@@ -54,5 +54,6 @@ func adminRouter() {
 
 		adminRouter.GET("/product/list", productController.GetProductList)
 		adminRouter.DELETE("/product/:productId", productController.DeleteProduct)
+		adminRouter.PUT("/product/:productId", productController.UpdateProduct)
 	}
 }
