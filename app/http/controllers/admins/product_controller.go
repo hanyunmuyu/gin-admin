@@ -23,3 +23,24 @@ func (p *ProductController) GetProductList(ctx *gin.Context) {
 	productList := productService.GetProductList(page, 15)
 	p.Success(ctx, productList)
 }
+func (p *ProductController) DeleteProduct(ctx *gin.Context) {
+	productId := 0
+	if p, err := strconv.Atoi(ctx.Param("productId")); err == nil {
+		productId = p
+	}
+	if productId <= 0 {
+		p.Error(ctx, "productId >0")
+		return
+	}
+	product := productService.GetProductById(productId)
+	if product.ID == 0 {
+		p.Error(ctx, "产品不能存在")
+		return
+	}
+	row := productService.DeleteProductByProductId(productId)
+	if row == 0 {
+		p.Error(ctx, "删除失败")
+		return
+	}
+	p.Success(ctx, gin.H{})
+}

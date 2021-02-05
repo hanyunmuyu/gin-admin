@@ -15,7 +15,10 @@ func NewProductSeeder() *ProductSeeder {
 
 func (p ProductSeeder) Run() {
 	for i := 0; i < 20; i++ {
-		p := models.Product{Name: fmt.Sprintf("product %d", i)}
+		p := models.Product{
+			Name:        fmt.Sprintf("product %d", i),
+			Description: fmt.Sprintf("product description %d", i),
+		}
 		db.DB.Create(&p)
 	}
 }
