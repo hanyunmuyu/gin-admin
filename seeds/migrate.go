@@ -14,5 +14,6 @@ func migrate() {
 		models.User{},
 		models.Message{},
 		models.Activity{},
+		models.Product{},
 	)
 }

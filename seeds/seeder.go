@@ -11,6 +11,7 @@ var seederList = []Seeder{
 	seeders.NewUserSeeder(),
 	seeders.NewMessageSeeder(),
 	seeders.NewActivitySeeder(),
+	seeders.NewProductSeeder(),
 }
 
 type Seeder interface {

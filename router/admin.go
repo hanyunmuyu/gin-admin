@@ -18,6 +18,7 @@ var (
 	messageController    = admins.MessageController{}
 	configController     = admins.ConfigController{}
 	activityController   = admins.ActivityController{}
+	productController    = admins.ProductController{}
 )
 
 func adminRouter() {
@@ -50,5 +51,7 @@ func adminRouter() {
 		adminRouter.GET("/message", messageController.GetMessageList)
 		adminRouter.GET("/message/:id", messageController.GetMessageDetail)
 		adminRouter.GET("/activity", activityController.GetActivityList)
+
+		adminRouter.GET("/product/list", productController.GetProductList)
 	}
 }
