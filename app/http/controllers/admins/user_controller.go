@@ -35,8 +35,9 @@ func (userController *UserController) GetUserList(ctx *gin.Context) {
 		page = p
 	}
 	keyword := ctx.DefaultQuery("keyword", "")
-
-	userList := userService.GetUserList(page, keyword, 15)
+	startDate := ctx.DefaultQuery("startDate", "")
+	endDate := ctx.DefaultQuery("endDate", "")
+	userList := userService.GetUserList(page, keyword, startDate, endDate, 15)
 	userController.Success(ctx, userList)
 }
 
