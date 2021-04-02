@@ -9,10 +9,16 @@ import (
 type UserService struct {
 }
 
-func (userService *UserService) GetUserList(page, limit int) *utils.Paginate {
+func (userService *UserService) GetUserList(page int, keyword string, limit int) *utils.Paginate {
 	var userList []models.User
 	var count int64
-	db.DB.Offset((page - 1) * limit).Limit(limit).Find(&userList).Offset(-1).Count(&count)
+	d := db.DB.Offset((page - 1) * limit)
+	if keyword != "" {
+		d.Where(
+			d.Where("name like ?", "%"+keyword+"%"),
+		)
+	}
+	d.Limit(limit).Order("id desc").Find(&userList).Offset(-1).Count(&count)
 	return utils.NewPaginate(count, page, limit, userList)
 }
 

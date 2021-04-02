@@ -34,7 +34,9 @@ func (userController *UserController) GetUserList(ctx *gin.Context) {
 	if p, err := strconv.Atoi(ctx.DefaultQuery("page", "1")); err == nil {
 		page = p
 	}
-	userList := userService.GetUserList(page, 15)
+	keyword := ctx.DefaultQuery("keyword", "")
+
+	userList := userService.GetUserList(page, keyword, 15)
 	userController.Success(ctx, userList)
 }
 
