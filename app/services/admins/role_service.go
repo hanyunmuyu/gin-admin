@@ -12,15 +12,15 @@ type RoleService struct {
 func (r *RoleService) GetRoleList(page int, limit int) *utils.Paginate {
 	var roleList []models.Role
 	var total int64
-	db.DB.Offset((page - 1) * limit).Limit(limit).Find(&roleList).Offset(-1).Count(&total)
+	db.DB.Offset((page - 1) * limit).Limit(limit).Order("id desc").Find(&roleList).Offset(-1).Count(&total)
 	return utils.NewPaginate(total, page, limit, roleList)
 }
 func (r *RoleService) GetRoleById(roleId uint) (role models.Role) {
 	db.DB.First(&role, roleId)
 	return
 }
-func (r *RoleService) GetRoleByRoleName(roleName string) (role models.Role) {
-	db.DB.First(&role, "role_name=?", roleName)
+func (r *RoleService) GetRoleByRoleName(roleName string) (role models.Role, err error) {
+	err = db.DB.First(&role, "role_name=?", roleName).Error
 	return
 }
 
@@ -43,11 +43,11 @@ func (r *RoleService) DeleteRolePermission(roleId uint) int64 {
 func (r *RoleService) DeleteRole(roleId uint) int64 {
 	return db.DB.Delete(&models.Role{}, roleId).RowsAffected
 }
-func (r *RoleService) AddRolePermission(rolePermissionList []models.RolePermission) {
-	db.DB.Create(&rolePermissionList)
+func (r *RoleService) AddRolePermission(rolePermissionList []models.RolePermission) int64 {
+	return db.DB.Create(&rolePermissionList).RowsAffected
 }
-func (r *RoleService) AddRole(role models.Role) int64 {
-	return db.DB.Create(&role).RowsAffected
+func (r *RoleService) AddRole(role *models.Role) int64 {
+	return db.DB.Create(role).RowsAffected
 }
 func (r *RoleService) GetAllRole() (roleList []models.Role) {
 	db.DB.Find(&roleList)

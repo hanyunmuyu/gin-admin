@@ -193,7 +193,7 @@ func (r *RoleController) AddRole(ctx *gin.Context) {
 		RoleName     string `form:"roleName" binding:"required"`
 		PermissionId []uint `form:"permissionList" json:"permissionList" binding:"required"`
 	}{}
-	if err := ctx.ShouldBind(&form); err != nil {
+	if err := ctx.ShouldBindJSON(&form); err != nil {
 		lang := map[string]string{}
 		lang["permissionList"] = "权限列表"
 		lang["RoleName"] = "角色名称"
@@ -204,16 +204,16 @@ func (r *RoleController) AddRole(ctx *gin.Context) {
 		}
 		r.Error(ctx, "")
 	}
-	role := roleService.GetRoleByRoleName(form.RoleName)
-	if role.ID > 0 {
+	role, err := roleService.GetRoleByRoleName(form.RoleName)
+	if err == nil {
 		r.Error(ctx, "角色已经存在")
 		return
 	}
 	role.RoleName = form.RoleName
-	row := roleService.AddRole(role)
+	row := roleService.AddRole(&role)
 
 	if row <= 0 {
-		r.Error(ctx, "新怎失败")
+		r.Error(ctx, "新增失败")
 	}
 	var rolePermissionList []models.RolePermission
 	for _, permission := range permissionService.GetPermissionListByIdList(form.PermissionId) {
@@ -222,7 +222,7 @@ func (r *RoleController) AddRole(ctx *gin.Context) {
 			PermissionId: permission.ID,
 		})
 	}
-	roleService.AddRolePermission(rolePermissionList)
+	row = roleService.AddRolePermission(rolePermissionList)
 	r.Success(ctx, gin.H{})
 }
 func (r RoleController) GetAllRole(ctx *gin.Context) {
