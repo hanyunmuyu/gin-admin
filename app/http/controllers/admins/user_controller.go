@@ -174,8 +174,9 @@ func (userController *UserController) DeleteUser(ctx *gin.Context) {
 }
 func (u UserController) AddUser(ctx *gin.Context) {
 	form := struct {
-		Name   string `form:"name"`
-		Mobile string `form:"mobile"`
+		Name     string `form:"name"`
+		Mobile   string `form:"mobile"`
+		Password string `form:"password"`
 	}{}
 	if err := ctx.ShouldBind(&form); err != nil {
 		u.Error(ctx, err.Error())
@@ -188,6 +189,9 @@ func (u UserController) AddUser(ctx *gin.Context) {
 	}
 	user.Name = form.Name
 	user.Mobile = form.Mobile
+	if form.Password != "" {
+		user.Password = utils.EncodeMD5(form.Password)
+	}
 	row := userService.AddUser(user)
 	if row <= 0 {
 		u.Error(ctx, "添加失败")

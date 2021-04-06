@@ -26,5 +26,5 @@ require (
 	golang.org/x/tools v0.0.0-20210104081019-d8d6ddbec6ee // indirect
 	google.golang.org/protobuf v1.25.0 // indirect
 	gorm.io/driver/mysql v1.0.3
-	gorm.io/gorm v1.20.11
+	gorm.io/gorm v1.21.0
 )
