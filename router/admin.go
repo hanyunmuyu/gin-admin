@@ -40,6 +40,7 @@ func adminRouter() {
 		adminRouter.GET("/admin/permission", adminController.GetAdminPermissionList)
 		adminRouter.GET("/user/list", userController.GetUserList)
 		adminRouter.PUT("/user/:userId", userController.UpdateUser)
+		adminRouter.POST("/user/add", userController.AddUser)
 		adminRouter.DELETE("/user/:userId", userController.DeleteUser)
 		adminRouter.GET("/permission/list", permissionController.GetPermissionList)
 		adminRouter.GET("/role/list", roleController.GetRoleList)

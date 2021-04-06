@@ -172,3 +172,26 @@ func (userController *UserController) DeleteUser(ctx *gin.Context) {
 		userController.Error(ctx, "删除失败")
 	}
 }
+func (u UserController) AddUser(ctx *gin.Context) {
+	form := struct {
+		Name   string `form:"name"`
+		Mobile string `form:"mobile"`
+	}{}
+	if err := ctx.ShouldBind(&form); err != nil {
+		u.Error(ctx, err.Error())
+		return
+	}
+	user := userService.GetUserByName(form.Name)
+	if user.ID > 0 {
+		u.Error(ctx, "用户已经存在")
+		return
+	}
+	user.Name = form.Name
+	user.Mobile = form.Mobile
+	row := userService.AddUser(user)
+	if row <= 0 {
+		u.Error(ctx, "添加失败")
+		return
+	}
+	u.Success(ctx, gin.H{})
+}

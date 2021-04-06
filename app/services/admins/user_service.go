@@ -50,3 +50,6 @@ func (userService *UserService) GetUserByEmail(email string) (user models.User) 
 func (userService *UserService) DeleteUser(userId uint) int64 {
 	return db.DB.Delete(&models.User{}, userId).RowsAffected
 }
+func (userService *UserService) AddUser(user models.User) int64 {
+	return db.DB.Create(&user).RowsAffected
+}
