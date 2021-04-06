@@ -20,6 +20,7 @@ func (u *UserSeeder) Run() {
 		user.Name = fmt.Sprintf("user%v", i)
 		user.Password = utils.EncodeMD5("123456")
 		user.Mobile = "12345678910"
+		user.Email = "1355081829@qq.com"
 		db.DB.Create(&user)
 	}
 }
