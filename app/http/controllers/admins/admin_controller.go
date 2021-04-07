@@ -135,3 +135,32 @@ func (ac *AdminController) DeleteAdmin(ctx *gin.Context) {
 		ac.Error(ctx, "删除失败")
 	}
 }
+func (ac AdminController) AddAdmin(ctx *gin.Context) {
+	form := struct {
+		Name     string `form:"name" binding:"required"`
+		Mobile   string `form:"mobile"`
+		Password string `form:"password"`
+		Email    string `form:"email"`
+	}{}
+	if err := ctx.ShouldBind(&form); err != nil {
+		ac.Error(ctx, err.Error())
+		return
+	}
+	admin := adminService.GetAdminByName(form.Name)
+	if admin.ID > 0 {
+		ac.Error(ctx, "用户已经存在")
+		return
+	}
+	if form.Password != "" {
+		admin.Password = utils.EncodeMD5(form.Password)
+	}
+	if form.Mobile != "" {
+		admin.Mobile = form.Mobile
+	}
+	if form.Email != "" {
+		admin.Email = form.Email
+	}
+	admin.Name = form.Name
+	adminService.AddAdmin(admin)
+	ac.Success(ctx, gin.H{})
+}
