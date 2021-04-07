@@ -95,7 +95,11 @@ func (c ConfigController) Check(ctx *gin.Context) {
 	v.OnConfigChange(func(e fsnotify.Event) {
 		db = v.GetString("mysql.db")
 	})
-	_, _ = db2.Connect()
+	_, err := db2.Connect()
+	if err != nil {
+		c.Error(ctx, "配置错误")
+		return
+	}
 	if db == "" {
 		c.Error(ctx, db)
 	} else {
