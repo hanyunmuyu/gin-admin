@@ -97,7 +97,7 @@ func (c ConfigController) Check(ctx *gin.Context) {
 	})
 	_, err := db2.Connect()
 	if err != nil {
-		c.Error(ctx, "配置错误")
+		c.Error(ctx, err.Error())
 		return
 	}
 	if db == "" {
