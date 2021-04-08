@@ -90,6 +90,10 @@ jwt:
 	}
 }
 func (c ConfigController) Check(ctx *gin.Context) {
+	if _, err := db2.Connect(); err == nil {
+		c.Success(ctx, gin.H{})
+		return
+	}
 	v := utils.Config()
 	db := v.GetString("mysql.db")
 	v.OnConfigChange(func(e fsnotify.Event) {
