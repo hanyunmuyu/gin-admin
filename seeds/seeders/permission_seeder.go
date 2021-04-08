@@ -21,13 +21,13 @@ func (p PermissionSeeder) Run() {
 		Title:          "仪表盘",
 		ParentId:       0,
 		IsMenu:         1,
-		Path:           "/admin/dashboard",
+		Path:           "/admin/index",
 		PermissionList: nil,
 	})
 	var rolePermission models.Permission
 	var rolePermissionList []models.Permission
 	rolePermission = models.Permission{
-		ApiPath:  "/admin/v1/role/list",
+		ApiPath:  "/admin/role/list",
 		Rule:     "/admin/role/list",
 		Method:   "get",
 		Title:    "角色管理",
@@ -36,7 +36,7 @@ func (p PermissionSeeder) Run() {
 		Path:     "/admin/role",
 	}
 	rolePermission.PermissionList = append(rolePermissionList, models.Permission{
-		ApiPath:  "/admin/v1/role/list",
+		ApiPath:  "/admin/role/list",
 		Rule:     "/admin/role/list",
 		Method:   "get",
 		Title:    "角色列表",
@@ -77,7 +77,7 @@ func (p PermissionSeeder) Run() {
 	rolePermissionList = append(rolePermissionList, rolePermission)
 
 	var adminPermission = models.Permission{
-		ApiPath:  "/admin/v1/role/list",
+		ApiPath:  "/admin/role/list",
 		Rule:     "/admin/role/list",
 		Method:   "get",
 		Title:    "管理员管理",
@@ -87,7 +87,7 @@ func (p PermissionSeeder) Run() {
 	}
 	var adminPermissionList []models.Permission
 	adminPermissionList = append(adminPermissionList, models.Permission{
-		ApiPath:  "/admin/v1/role/list",
+		ApiPath:  "/admin/role/list",
 		Rule:     "/admin/role/list",
 		Method:   "get",
 		Title:    "管理员列表",
