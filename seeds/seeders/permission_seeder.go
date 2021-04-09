@@ -77,18 +77,18 @@ func (p PermissionSeeder) Run() {
 	rolePermissionList = append(rolePermissionList, rolePermission)
 
 	var adminPermission = models.Permission{
-		ApiPath:  "/admin/role/list",
-		Rule:     "/admin/role/list",
+		ApiPath:  "/admin/admin/list",
+		Rule:     "/admin/admin/list",
 		Method:   "get",
 		Title:    "管理员管理",
 		ParentId: 0,
 		IsMenu:   1,
-		Path:     "/admin/list",
+		Path:     "/admin/admin",
 	}
 	var adminPermissionList []models.Permission
 	adminPermissionList = append(adminPermissionList, models.Permission{
-		ApiPath:  "/admin/role/list",
-		Rule:     "/admin/role/list",
+		ApiPath:  "/admin/admin/list",
+		Rule:     "/admin/admin/list",
 		Method:   "get",
 		Title:    "管理员列表",
 		ParentId: 0,
